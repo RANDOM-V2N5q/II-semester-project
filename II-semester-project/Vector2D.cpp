@@ -1,4 +1,4 @@
-#include "Vector2D.h"
+#include "MainHeader.h"
 
 
 
@@ -37,6 +37,16 @@ double Vector2D::getY() {
 
 
 
+double Vector2D::getMagnitude() {
+	return hypot(x, y);
+}
+
+double Vector2D::getDirection() {
+	return atan(y/x);
+}
+
+
+
 Vector2D Vector2D::operator+(Vector2D v) {
 	return Vector2D(
 		x + v.getX(),
@@ -52,13 +62,13 @@ Vector2D Vector2D::operator-(Vector2D v) {
 }
 
 Vector2D Vector2D::operator*(double a) {
-	return Vector2D(x*a,y*a);
+	return Vector2D(x*a, y*a);
 }
 
 Vector2D Vector2D::operator/(double a) {
-	return Vector2D(x/a,y/a);
+	return Vector2D(x/a, y/a);
 }
 
 Vector2D Vector2D::operator-() {
-	return Vector2D(-x,-y);
+	return Vector2D(-x, -y);
 }

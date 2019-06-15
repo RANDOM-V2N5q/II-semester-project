@@ -14,6 +14,9 @@ public:
 	void setY(double Y);
 	double getY();
 
+	double getMagnitude();
+	double getDirection();
+
 	Vector2D operator+(Vector2D v);
 	Vector2D operator-(Vector2D v);
 	Vector2D operator*(double a);
