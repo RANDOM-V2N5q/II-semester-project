@@ -3,12 +3,12 @@
 
 
 CircleObject::CircleObject() {
-	velocity = Vector2D();
+	force = Vector2D();
 	object = sf::CircleShape();
 }
 
 CircleObject::CircleObject(Vector2D v, double m, sf::CircleShape o) {
-	velocity = v;
+	force = v;
 	mass = m;
 	object = o;
 }
@@ -19,11 +19,11 @@ CircleObject::~CircleObject() {
 
 
 void CircleObject::setVelocity(Vector2D v) {
-	velocity = v;
+	force = v;
 }
 
 Vector2D CircleObject::getVelocity() {
-	return velocity;
+	return force;
 }
 
 
@@ -44,6 +44,10 @@ void  CircleObject::setObject(sf::CircleShape o) {
 
 sf::CircleShape  CircleObject::getObject() {
 	return object;
+}
+
+void CircleObject::setPosition(double x, double y) {
+	object.setPosition(x, y);
 }
 
 Vector2D CircleObject::getPosition() {

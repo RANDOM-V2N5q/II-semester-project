@@ -3,7 +3,7 @@
 
 class CircleObject {
 private:
-	Vector2D velocity;
+	Vector2D force;
 	double mass;
 	sf::CircleShape object;
 public:
@@ -21,4 +21,5 @@ public:
 	sf::CircleShape getObject();
 
 	Vector2D getPosition();
+	void setPosition(double x, double y);
 };
