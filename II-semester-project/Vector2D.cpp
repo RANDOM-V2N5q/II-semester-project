@@ -50,3 +50,15 @@ Vector2D Vector2D::operator-(Vector2D v) {
 		y - v.getY()
 	);
 }
+
+Vector2D Vector2D::operator*(double a) {
+	return Vector2D(x*a,y*a);
+}
+
+Vector2D Vector2D::operator/(double a) {
+	return Vector2D(x/a,y/a);
+}
+
+Vector2D Vector2D::operator-() {
+	return Vector2D(-x,-y);
+}

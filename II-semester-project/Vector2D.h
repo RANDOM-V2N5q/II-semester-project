@@ -16,5 +16,8 @@ public:
 
 	Vector2D operator+(Vector2D v);
 	Vector2D operator-(Vector2D v);
+	Vector2D operator*(double a);
+	Vector2D operator/(double v);
+	Vector2D operator-();
 };
 
