@@ -18,12 +18,32 @@ CircleObject::~CircleObject() {
 
 
 
-void CircleObject::setVelocity(Vector2D v) {
+void CircleObject::setForce(Vector2D v) {
 	force = v;
 }
 
-Vector2D CircleObject::getVelocity() {
+Vector2D CircleObject::getForce() {
 	return force;
+}
+
+
+
+void CircleObject::setAcceleration(Vector2D v) {
+	acceleration = v;
+}
+
+Vector2D CircleObject::getAcceleration() {
+	return acceleration;
+}
+
+
+
+void CircleObject::setVelocity(Vector2D v) {
+	velocity = v;
+}
+
+Vector2D CircleObject::getVelocity() {
+	return velocity;
 }
 
 
@@ -46,10 +66,16 @@ sf::CircleShape  CircleObject::getObject() {
 	return object;
 }
 
+
+
+Vector2D CircleObject::getPosition() {
+	return Vector2D(object.getPosition().x, object.getPosition().y);
+}
+
 void CircleObject::setPosition(double x, double y) {
 	object.setPosition(x, y);
 }
 
-Vector2D CircleObject::getPosition() {
-	return Vector2D(object.getPosition().x, object.getPosition().y);
+void CircleObject::setPosition(Vector2D v) {
+	object.setPosition(v.getX(), v.getY());
 }
