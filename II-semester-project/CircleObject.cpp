@@ -8,7 +8,9 @@ CircleObject::CircleObject() {
 }
 
 CircleObject::CircleObject(Vector2D v, double m, sf::CircleShape o) {
-	force = v;
+	force = Vector2D(0,0);
+	acceleration = Vector2D(0, 0);
+	velocity = v;
 	mass = m;
 	object = o;
 }
