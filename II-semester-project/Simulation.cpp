@@ -40,35 +40,50 @@ void Simulation::calculateForces() {
 			double mass2 = DrawableObjects[j].getMass();
 			Vector2D position2 = DrawableObjects[j].getPosition();
 
-		https://i.stack.imgur.com/owYYV.png
+		//https://i.stack.imgur.com/owYYV.png
 
-			Vector2D distance = position2 - position1;
-			Vector2D gForce = (distance*G*mass1*mass2) / pow(hypot(distance.getX(), distance.getY), 3);
+			Vector2D unitVector = (position2 - position1) / (position2 - position1).getMagnitude();
+			Vector2D gForce = unitVector * G*mass1*mass2 / (position2 - position1).getMagnitude();
 
-			DrawableObjects[i].setVelocity(gForce + DrawableObjects[i].getVelocity());
-			DrawableObjects[j].setVelocity(-(gForce + DrawableObjects[j].getVelocity()));
+			DrawableObjects[i].setForce(gForce + DrawableObjects[i].getForce());
+			DrawableObjects[j].setForce(-gForce + DrawableObjects[j].getForce());
 		}
+	}
+}
+
+void Simulation::calculateAcceleration() {
+	for(int i = 0; i < DrawableObjects.size(); i++) {
+		Vector2D unitVector = DrawableObjects[i].getForce() / DrawableObjects[i].getForce().getMagnitude();
+		Vector2D acceleration = unitVector * DrawableObjects[i].getForce().getMagnitude() / DrawableObjects[i].getMass();
+
+		DrawableObjects[i].setAcceleration(acceleration);
+	}
+}
+
+void Simulation::calculateVelocitys() {
+	for(int i = 0; i < DrawableObjects.size(); i++) {
+		Vector2D acceleration = DrawableObjects[i].getAcceleration();
+		Vector2D velocity = DrawableObjects[i].getVelocity();
+
+		DrawableObjects[i].setVelocity(velocity + acceleration * 1000 / 60);
 	}
 }
 
 void Simulation::moveObjects() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		Vector2D velocity = DrawableObjects[i].getVelocity();
-		double mass = DrawableObjects[i].getMass();
 
-		double traveledDistance = (velocity.getMagnitude()*1000/60)/mass;
-		double traveledDistanceX = cos(velocity.getDirection())*traveledDistance;
-		double traveledDistanceY = sin(velocity.getDirection())*traveledDistance;
+		Vector2D traveledDistance = (velocity * 1000 / 60);
+		Vector2D position = DrawableObjects[i].getPosition();
 
-		double positionX = DrawableObjects[i].getPosition().getX();
-		double positionY = DrawableObjects[i].getPosition().getY();
-
-		DrawableObjects[i].setPosition(positionX + traveledDistanceX, positionY + traveledDistanceY);
+		DrawableObjects[i].setPosition(position + traveledDistance);
 	}
 }
 
 void Simulation::update() {
 	calculateForces();
+	calculateAcceleration();
+	calculateVelocitys();
 	moveObjects();
 }
 
@@ -76,7 +91,7 @@ void Simulation::update() {
 
 void Simulation::draw() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
-		window->draw(DrawableObjects[i].getObject);
+		window->draw(DrawableObjects[i].getObject());
 	}
 }
 

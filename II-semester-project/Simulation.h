@@ -3,7 +3,7 @@
 
 class Simulation {
 private:
-	double static G;
+	const double G = 6.67408e-11;
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
 public:
@@ -13,6 +13,8 @@ public:
 	void event();
 
 	void calculateForces();
+	void calculateAcceleration();
+	void calculateVelocitys();
 	void moveObjects();
 	void update();
 
@@ -21,5 +23,3 @@ public:
 
 	void run();
 };
-
-double Simulation::G = 6.67408e-11;
