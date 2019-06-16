@@ -26,6 +26,61 @@ void Simulation::event() {
 		if(event.type == sf::Event::Closed) {
 			window->close();
 		}
+		if(event.type == sf::Event::MouseWheelScrolled) {
+			double delta = event.mouseWheelScroll.delta;
+			sf::View newView = window->getView();
+			if(delta > 0) {
+				newView.zoom(0.75);
+				window->setView(newView);
+			}
+			else {
+				newView.zoom(1.25);
+				window->setView(newView);
+			}
+		}
+		if(event.type == sf::Event::KeyPressed) {
+			if(event.key.code == sf::Keyboard::A) {
+				sf::View newView = window->getView();
+				newView.setCenter(newView.getCenter().x - 500, newView.getCenter().y);
+				window->setView(newView);
+			}
+			else if(event.key.code == sf::Keyboard::D) {
+				sf::View newView = window->getView();
+				newView.setCenter(newView.getCenter().x + 500, newView.getCenter().y);
+				window->setView(newView);
+			}
+			else if(event.key.code == sf::Keyboard::W) {
+				sf::View newView = window->getView();
+				newView.setCenter(newView.getCenter().x, newView.getCenter().y - 500);
+				window->setView(newView);
+			}
+			if(event.key.code == sf::Keyboard::S) {
+				sf::View newView = window->getView();
+				newView.setCenter(newView.getCenter().x, newView.getCenter().y + 500);
+				window->setView(newView);
+			}
+		}
+		if(event.type == sf::Event::MouseButtonPressed) {
+			if(event.mouseButton.button == sf::Mouse::Left) {
+				positonOfMouse = event.mouseButton;
+			}
+		}
+		if(event.type == sf::Event::MouseButtonReleased) {
+			if(event.mouseButton.button == sf::Mouse::Left) {
+				double x = event.mouseButton.x - positonOfMouse.x;
+				double y = event.mouseButton.y - positonOfMouse.y;
+
+				sf::CircleShape newShape;
+				newShape.setFillColor(sf::Color::White);
+				newShape.setOrigin(20 / 2, 20 / 2);
+				newShape.setPosition(positonOfMouse.x, positonOfMouse.y);
+				newShape.setPointCount(50);
+				newShape.setRadius(20);
+
+				CircleObject newObject(Vector2D(x, y), 6e+13, newShape);
+				DrawableObjects.push_back(newObject);
+			}
+		}
 	}
 }
 
@@ -53,10 +108,12 @@ void Simulation::calculateForces() {
 
 void Simulation::calculateAcceleration() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
-		Vector2D unitVector = DrawableObjects[i].getForce() / DrawableObjects[i].getForce().getMagnitude();
-		Vector2D acceleration = unitVector * DrawableObjects[i].getForce().getMagnitude() / DrawableObjects[i].getMass();
+		if(DrawableObjects[i].getForce().getMagnitude()) {
+			Vector2D unitVector = DrawableObjects[i].getForce() / DrawableObjects[i].getForce().getMagnitude();
+			Vector2D acceleration = unitVector * DrawableObjects[i].getForce().getMagnitude() / DrawableObjects[i].getMass();
 
-		DrawableObjects[i].setAcceleration(acceleration);
+			DrawableObjects[i].setAcceleration(acceleration);
+		}
 	}
 }
 
@@ -65,7 +122,7 @@ void Simulation::calculateVelocitys() {
 		Vector2D acceleration = DrawableObjects[i].getAcceleration();
 		Vector2D velocity = DrawableObjects[i].getVelocity();
 
-		DrawableObjects[i].setVelocity(velocity + acceleration * 1000 / 60);
+		DrawableObjects[i].setVelocity(velocity + acceleration * 1 / 60);
 	}
 }
 
@@ -73,7 +130,7 @@ void Simulation::moveObjects() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		Vector2D velocity = DrawableObjects[i].getVelocity();
 
-		Vector2D traveledDistance = (velocity * 1000 / 60);
+		Vector2D traveledDistance = (velocity * 1 / 60);
 		Vector2D position = DrawableObjects[i].getPosition();
 
 		DrawableObjects[i].setPosition(position + traveledDistance);

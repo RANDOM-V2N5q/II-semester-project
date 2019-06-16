@@ -6,6 +6,8 @@ private:
 	const double G = 6.67408e-11;
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
+
+	sf::Event::MouseButtonEvent positonOfMouse;
 public:
 	Simulation();
 	~Simulation();
