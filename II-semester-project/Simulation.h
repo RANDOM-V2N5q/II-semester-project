@@ -7,7 +7,9 @@ private:
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
 
-	sf::Vector2f positonOfMouse;
+	sf::Vector2f positonOfMouseL;
+	sf::Vector2f positonOfMouseR;
+	bool isRightMouseButtonPresed;
 	double Radious;
 	double Mass;
 public:

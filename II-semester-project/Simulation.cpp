@@ -44,43 +44,57 @@ void Simulation::event() {
 		if(event.type == sf::Event::KeyPressed) {
 			if(event.key.code == sf::Keyboard::A) {
 				sf::View newView = window->getView();
-				newView.setCenter(newView.getCenter().x - 500, newView.getCenter().y);
+				newView.setCenter(newView.getCenter().x-newView.getSize().x*0.05, newView.getCenter().y);
 				window->setView(newView);
 			}
 			else if(event.key.code == sf::Keyboard::D) {
 				sf::View newView = window->getView();
-				newView.setCenter(newView.getCenter().x + 500, newView.getCenter().y);
+				newView.setCenter(newView.getCenter().x + newView.getSize().x*0.05, newView.getCenter().y);
 				window->setView(newView);
 			}
 			else if(event.key.code == sf::Keyboard::W) {
 				sf::View newView = window->getView();
-				newView.setCenter(newView.getCenter().x, newView.getCenter().y - 500);
+				newView.setCenter(newView.getCenter().x, newView.getCenter().y - newView.getSize().x*0.05);
 				window->setView(newView);
 			}
 			if(event.key.code == sf::Keyboard::S) {
 				sf::View newView = window->getView();
-				newView.setCenter(newView.getCenter().x, newView.getCenter().y + 500);
+				newView.setCenter(newView.getCenter().x, newView.getCenter().y + newView.getSize().x*0.05);
 				window->setView(newView);
 			}
 		}
 		if(event.type == sf::Event::MouseButtonPressed) {
 			if(event.mouseButton.button == sf::Mouse::Left) {
-				positonOfMouse = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+				positonOfMouseL = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+			}
+			if(event.mouseButton.button == sf::Mouse::Right) {
+				positonOfMouseR = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+				isRightMouseButtonPresed = 1;
 			}
 		}
 		if(event.type == sf::Event::MouseButtonReleased) {
 			if(event.mouseButton.button == sf::Mouse::Left) {
-				sf::Vector2f newVector = window->mapPixelToCoords(sf::Mouse::getPosition(*window)) - positonOfMouse;
+				sf::Vector2f newVector = window->mapPixelToCoords(sf::Mouse::getPosition(*window)) - positonOfMouseL;
 
 				sf::CircleShape newShape;
 				newShape.setFillColor(sf::Color::White);
 				newShape.setOrigin(Radious / 2, Radious / 2);
-				newShape.setPosition(positonOfMouse.x, positonOfMouse.y);
+				newShape.setPosition(positonOfMouseL.x, positonOfMouseL.y);
 				newShape.setRadius(Radious);
 
 				CircleObject newObject(Vector2D(newVector.x, newVector.y), Mass, newShape);
 				DrawableObjects.push_back(newObject);
 			}
+			if(event.mouseButton.button == sf::Mouse::Right) {
+				isRightMouseButtonPresed = 0;
+			}
+		}
+		if(event.type == sf::Event::MouseMoved && isRightMouseButtonPresed) {
+			sf::View newView = window->getView();
+			newView.setCenter(newView.getCenter() - (window->mapPixelToCoords(sf::Mouse::getPosition(*window)) - positonOfMouseR));
+			window->setView(newView);
+
+			positonOfMouseR = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 		}
 	}
 }
