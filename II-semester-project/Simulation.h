@@ -7,7 +7,9 @@ private:
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
 
-	sf::Event::MouseButtonEvent positonOfMouse;
+	sf::Vector2f positonOfMouse;
+	double Radious;
+	double Mass;
 public:
 	Simulation();
 	~Simulation();

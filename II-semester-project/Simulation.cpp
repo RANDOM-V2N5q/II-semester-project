@@ -11,6 +11,9 @@ Simulation::Simulation() {
 
 	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName, windowStyle);
 	window->setFramerateLimit(windowFramerate);
+
+	Radious = 6e+6;
+	Mass = 6e+24;
 }
 
 Simulation::~Simulation() {
@@ -62,22 +65,20 @@ void Simulation::event() {
 		}
 		if(event.type == sf::Event::MouseButtonPressed) {
 			if(event.mouseButton.button == sf::Mouse::Left) {
-				positonOfMouse = event.mouseButton;
+				positonOfMouse = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 			}
 		}
 		if(event.type == sf::Event::MouseButtonReleased) {
 			if(event.mouseButton.button == sf::Mouse::Left) {
-				double x = event.mouseButton.x - positonOfMouse.x;
-				double y = event.mouseButton.y - positonOfMouse.y;
+				sf::Vector2f newVector = window->mapPixelToCoords(sf::Mouse::getPosition(*window)) - positonOfMouse;
 
 				sf::CircleShape newShape;
 				newShape.setFillColor(sf::Color::White);
-				newShape.setOrigin(20 / 2, 20 / 2);
+				newShape.setOrigin(Radious / 2, Radious / 2);
 				newShape.setPosition(positonOfMouse.x, positonOfMouse.y);
-				newShape.setPointCount(50);
-				newShape.setRadius(20);
+				newShape.setRadius(Radious);
 
-				CircleObject newObject(Vector2D(x, y), 6e+13, newShape);
+				CircleObject newObject(Vector2D(newVector.x, newVector.y), Mass, newShape);
 				DrawableObjects.push_back(newObject);
 			}
 		}
