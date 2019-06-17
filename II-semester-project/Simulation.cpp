@@ -57,10 +57,13 @@ void Simulation::event() {
 				newView.setCenter(newView.getCenter().x, newView.getCenter().y - newView.getSize().x*0.05);
 				window->setView(newView);
 			}
-			if(event.key.code == sf::Keyboard::S) {
+			else if(event.key.code == sf::Keyboard::S) {
 				sf::View newView = window->getView();
 				newView.setCenter(newView.getCenter().x, newView.getCenter().y + newView.getSize().x*0.05);
 				window->setView(newView);
+			}
+			else if(event.key.code == sf::Keyboard::Space) {
+				isPaused = !isPaused;
 			}
 		}
 		if(event.type == sf::Event::MouseButtonPressed) {
@@ -178,7 +181,9 @@ void Simulation::display() {
 void Simulation::run() {
 	while(window->isOpen()) {
 		event();
-		update();
+		if(!isPaused) {
+			update();
+		}
 		display();
 	}
 }

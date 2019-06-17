@@ -10,6 +10,7 @@ private:
 	sf::Vector2f positonOfMouseL;
 	sf::Vector2f positonOfMouseR;
 	bool isRightMouseButtonPresed;
+	bool isPaused;
 	double Radious;
 	double Mass;
 public:
