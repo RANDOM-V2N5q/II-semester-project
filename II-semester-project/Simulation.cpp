@@ -7,9 +7,11 @@ Simulation::Simulation() {
 	int windowHeight = 1000;
 	std::string windowName = "Gravity Simulator";
 	int windowStyle = sf::Style::Close | sf::Style::Titlebar;
+	sf::ContextSettings windowSetting;
+	windowSetting.antialiasingLevel = 4;
 	int windowFramerate = 60;
 
-	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName, windowStyle);
+	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName, windowStyle, windowSetting);
 	window->setFramerateLimit(windowFramerate);
 
 	Radious = 6e+6;
