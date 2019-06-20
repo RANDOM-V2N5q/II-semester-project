@@ -26,6 +26,9 @@ public:
 
 	void event();
 
+	bool isCollision(CircleObject a, CircleObject b);
+	void mergeObjects(int i, int j);
+	void detectCollisions();
 	void calculateForces();
 	void calculateAccelerations();
 	void calculateVelocitys();

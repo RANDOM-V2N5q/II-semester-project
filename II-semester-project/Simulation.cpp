@@ -108,6 +108,35 @@ void Simulation::event() {
 
 
 
+bool Simulation::isCollision(CircleObject a, CircleObject b) {
+	Vector2D pos1 = a.getPosition();
+	double radious = a.getObject().getRadius();
+	Vector2D pos2 = b.getPosition();
+
+	return pow(pos2.getX() - pos1.getX(), 2) + pow(pos2.getY() - pos1.getY(), 2) <= pow(radious, 2);
+}
+
+void Simulation::mergeObjects(int i, int j) {
+	double m1 = DrawableObjects[i].getMass();
+	Vector2D v1 = DrawableObjects[i].getVelocity();
+	double m2 = DrawableObjects[j].getMass();
+	Vector2D v2 = DrawableObjects[j].getVelocity();
+
+	DrawableObjects[i].setVelocity((v1*m1 + v2 * m2) / (m1 + m2));
+	DrawableObjects[i].setMass(m1 + m2);
+}
+
+void Simulation::detectCollisions() {
+	for(int i = 0; i < DrawableObjects.size(); i++) {
+		for(int j = i + 1; j < DrawableObjects.size(); j++) {
+			if(isCollision(DrawableObjects[i], DrawableObjects[j])) {
+				mergeObjects(i, j);
+				DrawableObjects.erase(DrawableObjects.begin()+j);
+			}
+		}
+	}
+}
+
 void Simulation::calculateForces() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		double mass1 = DrawableObjects[i].getMass();
@@ -160,6 +189,7 @@ void Simulation::moveObjects() {
 }
 
 void Simulation::update() {
+	detectCollisions();
 	calculateForces();
 	calculateAccelerations();
 	calculateVelocitys();
