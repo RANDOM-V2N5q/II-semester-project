@@ -89,7 +89,7 @@ void Simulation::event() {
 			}
 			else if(event.mouseButton.button == sf::Mouse::Right) {
 				savePositionOfCursorTo(&positonOfRightMouseClick);
-				isRightMouseButtonPresed = 1;
+				isRightMouseButtonPressed = 1;
 			}
 		}
 		else if(event.type == sf::Event::MouseButtonReleased) {
@@ -97,10 +97,10 @@ void Simulation::event() {
 				createObject();
 			}
 			else if(event.mouseButton.button == sf::Mouse::Right) {
-				isRightMouseButtonPresed = 0;
+				isRightMouseButtonPressed = 0;
 			}
 		}
-		else if(event.type == sf::Event::MouseMoved && isRightMouseButtonPresed) {
+		else if(event.type == sf::Event::MouseMoved && isRightMouseButtonPressed) {
 			changeViewCenter();
 		}
 	}
@@ -128,7 +128,7 @@ void Simulation::calculateForces() {
 	}
 }
 
-void Simulation::calculateAcceleration() {
+void Simulation::calculateAccelerations() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		if(DrawableObjects[i].getForce().getMagnitude()) {
 			Vector2D unitVector = DrawableObjects[i].getForce() / DrawableObjects[i].getForce().getMagnitude();
@@ -161,7 +161,7 @@ void Simulation::moveObjects() {
 
 void Simulation::update() {
 	calculateForces();
-	calculateAcceleration();
+	calculateAccelerations();
 	calculateVelocitys();
 	moveObjects();
 }

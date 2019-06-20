@@ -9,7 +9,7 @@ private:
 
 	sf::Vector2f positonOfLeftMouseClick;
 	sf::Vector2f positonOfRightMouseClick;
-	bool isRightMouseButtonPresed;
+	bool isRightMouseButtonPressed;
 	bool isPaused;
 	double Radious;
 	double Mass;
@@ -27,7 +27,7 @@ public:
 	void event();
 
 	void calculateForces();
-	void calculateAcceleration();
+	void calculateAccelerations();
 	void calculateVelocitys();
 	void moveObjects();
 	void update();
