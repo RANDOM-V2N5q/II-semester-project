@@ -13,6 +13,7 @@ Simulation::Simulation() {
 
 	window = new sf::RenderWindow(sf::VideoMode(windowWidth, windowHeight), windowName, windowStyle, windowSetting);
 	window->setFramerateLimit(windowFramerate);
+	window->setView(sf::View(sf::FloatRect(0, 0, 7e+8, 7e+8)));
 
 	Radious = 6e+6;
 	Mass = 6e+24;
