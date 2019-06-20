@@ -16,7 +16,11 @@ CircleObject::CircleObject(Vector2D v, double m, sf::CircleShape o) {
 }
 
 CircleObject::CircleObject(sf::Vector2f v, double m, sf::CircleShape o) {
-	CircleObject(Vector2D(v.x, v.y), m, o);
+	force = Vector2D(0, 0);
+	acceleration = Vector2D(0, 0);
+	velocity = Vector2D(v.x,v.y);
+	mass = m;
+	object = o;
 }
 
 CircleObject::~CircleObject() {

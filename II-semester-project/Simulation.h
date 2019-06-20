@@ -20,6 +20,7 @@ private:
 	sf::Vector2f getCursorPosition();
 	void savePositionOfCursorTo(sf::Vector2f *var);
 	void createObject();
+	void deleteObject(int i);
 public:
 	Simulation();
 	~Simulation();
@@ -29,6 +30,7 @@ public:
 	bool isCollision(CircleObject a, CircleObject b);
 	void mergeObjects(int i, int j);
 	void detectCollisions();
+	void resetForces();
 	void calculateForces();
 	void calculateAccelerations();
 	void calculateVelocitys();

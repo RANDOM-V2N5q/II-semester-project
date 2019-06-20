@@ -16,7 +16,7 @@ void Simulation::changeViewSize(double delta) {
 
 void Simulation::changeViewCenter() {
 	sf::View newView = window->getView();
-	newView.setCenter((getCursorPosition() - positonOfRightMouseClick) - newView.getCenter());
+	newView.setCenter(newView.getCenter()-(getCursorPosition() - positonOfRightMouseClick));
 	window->setView(newView);
 
 	savePositionOfCursorTo(&positonOfRightMouseClick);
@@ -41,6 +41,10 @@ void Simulation::createObject() {
 
 	CircleObject newObject(velocity, Mass, shape);
 	DrawableObjects.push_back(newObject);
+}
+
+void Simulation::deleteObject(int i) {
+	DrawableObjects.erase(DrawableObjects.begin() + i);
 }
 
 
@@ -131,13 +135,22 @@ void Simulation::detectCollisions() {
 		for(int j = i + 1; j < DrawableObjects.size(); j++) {
 			if(isCollision(DrawableObjects[i], DrawableObjects[j])) {
 				mergeObjects(i, j);
-				DrawableObjects.erase(DrawableObjects.begin()+j);
+				deleteObject(j);
+				j--;
 			}
 		}
 	}
 }
 
+void Simulation::resetForces() {
+	for(int i = 0; i < DrawableObjects.size(); i++) {
+		DrawableObjects[i].setForce(Vector2D(0,0));
+	}
+}
+
 void Simulation::calculateForces() {
+	resetForces();
+
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		double mass1 = DrawableObjects[i].getMass();
 		Vector2D position1 = DrawableObjects[i].getPosition();
@@ -164,6 +177,9 @@ void Simulation::calculateAccelerations() {
 			Vector2D acceleration = unitVector * DrawableObjects[i].getForce().getMagnitude() / DrawableObjects[i].getMass();
 
 			DrawableObjects[i].setAcceleration(acceleration);
+		}
+		else {
+			DrawableObjects[i].setAcceleration(Vector2D(0,0));
 		}
 	}
 }
