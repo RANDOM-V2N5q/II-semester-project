@@ -7,12 +7,19 @@ private:
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
 
-	sf::Vector2f positonOfMouseL;
-	sf::Vector2f positonOfMouseR;
+	sf::Vector2f positonOfLeftMouseClick;
+	sf::Vector2f positonOfRightMouseClick;
 	bool isRightMouseButtonPresed;
 	bool isPaused;
 	double Radious;
 	double Mass;
+
+
+	void changeViewSize(double delta);
+	void changeViewCenter();
+	sf::Vector2f getCursorPosition();
+	void savePositionOfCursorTo(sf::Vector2f *var);
+	void createObject();
 public:
 	Simulation();
 	~Simulation();
