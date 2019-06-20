@@ -39,7 +39,7 @@ void Simulation::createObject() {
 	shape.setPosition(positonOfLeftMouseClick);
 	shape.setRadius(Radious);
 
-	CircleObject newObject(Vector2D(velocity.x, velocity.y), Mass, shape);
+	CircleObject newObject(velocity, Mass, shape);
 	DrawableObjects.push_back(newObject);
 }
 

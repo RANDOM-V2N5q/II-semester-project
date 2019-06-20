@@ -15,6 +15,10 @@ CircleObject::CircleObject(Vector2D v, double m, sf::CircleShape o) {
 	object = o;
 }
 
+CircleObject::CircleObject(sf::Vector2f v, double m, sf::CircleShape o) {
+	CircleObject(Vector2D(v.x, v.y), m, o);
+}
+
 CircleObject::~CircleObject() {
 }
 

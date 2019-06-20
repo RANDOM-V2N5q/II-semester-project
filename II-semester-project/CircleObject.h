@@ -11,6 +11,7 @@ private:
 public:
 	CircleObject();
 	CircleObject(Vector2D v, double m, sf::CircleShape o);
+	CircleObject(sf::Vector2f v, double m, sf::CircleShape o);
 	~CircleObject();
 
 	void setForce(Vector2D v);
