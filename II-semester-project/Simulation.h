@@ -11,6 +11,8 @@ private:
 	sf::Vector2f positonOfRightMouseClick;
 	bool isRightMouseButtonPressed;
 	bool isPaused;
+	int speedOfSimulation;
+
 	double Radious;
 	double Mass;
 

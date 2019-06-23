@@ -16,7 +16,7 @@ void Simulation::changeViewSize(double delta) {
 
 void Simulation::changeViewCenter() {
 	sf::View newView = window->getView();
-	newView.setCenter(newView.getCenter()-(getCursorPosition() - positonOfRightMouseClick));
+	newView.setCenter(newView.getCenter() - (getCursorPosition() - positonOfRightMouseClick));
 	window->setView(newView);
 
 	savePositionOfCursorTo(&positonOfRightMouseClick);
@@ -64,6 +64,7 @@ Simulation::Simulation() {
 
 	Radious = 6e+6;
 	Mass = 6e+24;
+	speedOfSimulation = 1;
 }
 
 Simulation::~Simulation() {
@@ -85,6 +86,14 @@ void Simulation::event() {
 		else if(event.type == sf::Event::KeyPressed) {
 			if(event.key.code == sf::Keyboard::Space) {
 				isPaused = !isPaused;
+			}
+			else if(event.key.code == sf::Keyboard::Comma) {
+				if(speedOfSimulation > 0) {
+					speedOfSimulation--;
+				}
+			}
+			else if(event.key.code == sf::Keyboard::Period) {
+				speedOfSimulation++;
 			}
 		}
 		else if(event.type == sf::Event::MouseButtonPressed) {
@@ -144,7 +153,7 @@ void Simulation::detectCollisions() {
 
 void Simulation::resetForces() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
-		DrawableObjects[i].setForce(Vector2D(0,0));
+		DrawableObjects[i].setForce(Vector2D(0, 0));
 	}
 }
 
@@ -179,7 +188,7 @@ void Simulation::calculateAccelerations() {
 			DrawableObjects[i].setAcceleration(acceleration);
 		}
 		else {
-			DrawableObjects[i].setAcceleration(Vector2D(0,0));
+			DrawableObjects[i].setAcceleration(Vector2D(0, 0));
 		}
 	}
 }
@@ -231,7 +240,7 @@ void Simulation::display() {
 void Simulation::run() {
 	while(window->isOpen()) {
 		event();
-		if(!isPaused) {
+		for(int i = 0; (i < speedOfSimulation) && (isPaused == false); i++) {
 			update();
 		}
 		display();
