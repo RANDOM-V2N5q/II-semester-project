@@ -64,6 +64,7 @@ Simulation::Simulation() {
 
 	radius = 6e+6;
 	mass = 6e+24;
+	speedOfSimulation = 1;
 }
 
 Simulation::~Simulation() {
@@ -86,6 +87,14 @@ void Simulation::event() {
 			if(event.key.code == sf::Keyboard::Space) {
 				isPaused = !isPaused;
 			}
+      else if(event.key.code == sf::Keyboard::Comma) {
+				if(speedOfSimulation > 0) {
+					speedOfSimulation--;
+				}
+			}
+			else if(event.key.code == sf::Keyboard::Period) {
+				speedOfSimulation++;
+      }
 			else {
 				if(event.key.code == sf::Keyboard::Right) {
 					mass *= 1.1;
@@ -229,6 +238,9 @@ void Simulation::moveObjects() {
 		Vector2D traveledDistance = (velocity * 1 / 60);
 		Vector2D position = DrawableObjects[i].getPosition();
 
+		lines.push_back(sf::Vertex(sf::Vector2f(position.getX() + traveledDistance.getX(),position.getY() + traveledDistance.getY())));
+		lines.push_back(sf::Vertex(sf::Vector2f(position.getX(), position.getY())));
+
 		DrawableObjects[i].setPosition(position + traveledDistance);
 	}
 }
@@ -247,6 +259,9 @@ void Simulation::draw() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		window->draw(DrawableObjects[i].getObject());
 	}
+	if(lines.size() != 0) {
+		window->draw(&lines[0], lines.size(), sf::Lines);
+	}
 }
 
 void Simulation::display() {
@@ -260,7 +275,7 @@ void Simulation::display() {
 void Simulation::run() {
 	while(window->isOpen()) {
 		event();
-		if(!isPaused) {
+		for(int i = 0; (i < speedOfSimulation) && (isPaused == false); i++) {
 			update();
 		}
 		display();
