@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 
 #include "Vector2D.h"
 #include "CircleObject.h"

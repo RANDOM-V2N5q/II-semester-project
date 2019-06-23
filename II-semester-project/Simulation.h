@@ -11,8 +11,8 @@ private:
 	sf::Vector2f positonOfRightMouseClick;
 	bool isRightMouseButtonPressed;
 	bool isPaused;
-	double Radius;
-	double Mass;
+	double radius;
+	double mass;
 
 
 	void changeViewSize(double delta);

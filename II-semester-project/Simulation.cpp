@@ -16,7 +16,7 @@ void Simulation::changeViewSize(double delta) {
 
 void Simulation::changeViewCenter() {
 	sf::View newView = window->getView();
-	newView.setCenter(newView.getCenter()-(getCursorPosition() - positonOfRightMouseClick));
+	newView.setCenter(newView.getCenter() - (getCursorPosition() - positonOfRightMouseClick));
 	window->setView(newView);
 
 	savePositionOfCursorTo(&positonOfRightMouseClick);
@@ -35,11 +35,11 @@ void Simulation::createObject() {
 
 	sf::CircleShape shape;
 	shape.setFillColor(sf::Color::White);
-	shape.setOrigin(Radius, Radius);
+	shape.setOrigin(radius, radius);
 	shape.setPosition(positonOfLeftMouseClick);
-	shape.setRadius(Radius);
+	shape.setRadius(radius);
 
-	CircleObject newObject(velocity, Mass, shape);
+	CircleObject newObject(velocity, mass, shape);
 	DrawableObjects.push_back(newObject);
 }
 
@@ -62,8 +62,8 @@ Simulation::Simulation() {
 	window->setFramerateLimit(windowFramerate);
 	window->setView(sf::View(sf::FloatRect(0, 0, 7e+8, 7e+8)));
 
-	Radius = 6e+6;
-	Mass = 6e+24;
+	radius = 6e+6;
+	mass = 6e+24;
 }
 
 Simulation::~Simulation() {
@@ -75,53 +75,65 @@ Simulation::~Simulation() {
 void Simulation::event() {
 	sf::Event event;
 
-	while (window->pollEvent(event)) {
-		if (event.type == sf::Event::Closed) {
+	while(window->pollEvent(event)) {
+		if(event.type == sf::Event::Closed) {
 			window->close();
 		}
-		else if (event.type == sf::Event::MouseWheelScrolled) {
+		else if(event.type == sf::Event::MouseWheelScrolled) {
 			changeViewSize(event.mouseWheelScroll.delta);
 		}
-		else if (event.type == sf::Event::KeyPressed) {
-			if (event.key.code == sf::Keyboard::Space) {
+		else if(event.type == sf::Event::KeyPressed) {
+			if(event.key.code == sf::Keyboard::Space) {
 				isPaused = !isPaused;
 			}
-			if (event.key.code == sf::Keyboard::Right)
-				Mass *= 1.1;
-			if (event.key.code == sf::Keyboard::Left)
-				Mass *= 0.9;
-			if (event.key.code == sf::Keyboard::Up)
-				Radius *= 1.1;
-			if (event.key.code == sf::Keyboard::Down)
-				Radius *= 0.9;
-			//fun
-			if (event.key.code == sf::Keyboard::P)
-				Mass *= 2;
-			if (event.key.code == sf::Keyboard::O)
-				Mass *= 0.5;
-			if (event.key.code == sf::Keyboard::L)
-				Radius *= 2;
-			if (event.key.code == sf::Keyboard::K)
-				Radius *= 0.5;
+			else {
+				if(event.key.code == sf::Keyboard::Right) {
+					mass *= 1.1;
+				}
+				else if(event.key.code == sf::Keyboard::Left) {
+					mass *= 0.9;
+				}
+				else if(event.key.code == sf::Keyboard::Up) {
+					radius *= 1.1;
+				}
+				else if(event.key.code == sf::Keyboard::Down) {
+					radius *= 0.9;
+				}
+				else if(event.key.code == sf::Keyboard::P) {
+					mass *= 2;
+				}
+				else if(event.key.code == sf::Keyboard::O) {
+					mass *= 0.5;
+				}
+				else if(event.key.code == sf::Keyboard::L) {
+					radius *= 2;
+				}
+				else if(event.key.code == sf::Keyboard::K) {
+					radius *= 0.5;
+				}
+				system("cls");
+				std::cout << "Mass: " << mass << std::endl;
+				std::cout << "Radius: " << radius;
+			}
 		}
-		else if (event.type == sf::Event::MouseButtonPressed) {
-			if (event.mouseButton.button == sf::Mouse::Left) {
+		else if(event.type == sf::Event::MouseButtonPressed) {
+			if(event.mouseButton.button == sf::Mouse::Left) {
 				savePositionOfCursorTo(&positonOfLeftMouseClick);
 			}
-			else if (event.mouseButton.button == sf::Mouse::Right) {
+			else if(event.mouseButton.button == sf::Mouse::Right) {
 				savePositionOfCursorTo(&positonOfRightMouseClick);
 				isRightMouseButtonPressed = 1;
 			}
 		}
-		else if (event.type == sf::Event::MouseButtonReleased) {
-			if (event.mouseButton.button == sf::Mouse::Left) {
+		else if(event.type == sf::Event::MouseButtonReleased) {
+			if(event.mouseButton.button == sf::Mouse::Left) {
 				createObject();
 			}
-			else if (event.mouseButton.button == sf::Mouse::Right) {
+			else if(event.mouseButton.button == sf::Mouse::Right) {
 				isRightMouseButtonPressed = 0;
 			}
 		}
-		else if (event.type == sf::Event::MouseMoved && isRightMouseButtonPressed) {
+		else if(event.type == sf::Event::MouseMoved && isRightMouseButtonPressed) {
 			changeViewCenter();
 		}
 	}
@@ -161,7 +173,7 @@ void Simulation::detectCollisions() {
 
 void Simulation::resetForces() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
-		DrawableObjects[i].setForce(Vector2D(0,0));
+		DrawableObjects[i].setForce(Vector2D(0, 0));
 	}
 }
 
@@ -196,7 +208,7 @@ void Simulation::calculateAccelerations() {
 			DrawableObjects[i].setAcceleration(acceleration);
 		}
 		else {
-			DrawableObjects[i].setAcceleration(Vector2D(0,0));
+			DrawableObjects[i].setAcceleration(Vector2D(0, 0));
 		}
 	}
 }
