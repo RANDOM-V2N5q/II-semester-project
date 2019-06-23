@@ -35,9 +35,9 @@ void Simulation::createObject() {
 
 	sf::CircleShape shape;
 	shape.setFillColor(sf::Color::White);
-	shape.setOrigin(Radious, Radious);
+	shape.setOrigin(Radius, Radius);
 	shape.setPosition(positonOfLeftMouseClick);
-	shape.setRadius(Radious);
+	shape.setRadius(Radius);
 
 	CircleObject newObject(velocity, Mass, shape);
 	DrawableObjects.push_back(newObject);
@@ -62,7 +62,7 @@ Simulation::Simulation() {
 	window->setFramerateLimit(windowFramerate);
 	window->setView(sf::View(sf::FloatRect(0, 0, 7e+8, 7e+8)));
 
-	Radious = 6e+6;
+	Radius = 6e+6;
 	Mass = 6e+24;
 }
 
@@ -75,36 +75,53 @@ Simulation::~Simulation() {
 void Simulation::event() {
 	sf::Event event;
 
-	while(window->pollEvent(event)) {
-		if(event.type == sf::Event::Closed) {
+	while (window->pollEvent(event)) {
+		if (event.type == sf::Event::Closed) {
 			window->close();
 		}
-		else if(event.type == sf::Event::MouseWheelScrolled) {
+		else if (event.type == sf::Event::MouseWheelScrolled) {
 			changeViewSize(event.mouseWheelScroll.delta);
 		}
-		else if(event.type == sf::Event::KeyPressed) {
-			if(event.key.code == sf::Keyboard::Space) {
+		else if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::Space) {
 				isPaused = !isPaused;
 			}
+			if (event.key.code == sf::Keyboard::Right)
+				Mass *= 1.1;
+			if (event.key.code == sf::Keyboard::Left)
+				Mass *= 0.9;
+			if (event.key.code == sf::Keyboard::Up)
+				Radius *= 1.1;
+			if (event.key.code == sf::Keyboard::Down)
+				Radius *= 0.9;
+			//fun
+			if (event.key.code == sf::Keyboard::P)
+				Mass *= 2;
+			if (event.key.code == sf::Keyboard::O)
+				Mass *= 0.5;
+			if (event.key.code == sf::Keyboard::L)
+				Radius *= 2;
+			if (event.key.code == sf::Keyboard::K)
+				Radius *= 0.5;
 		}
-		else if(event.type == sf::Event::MouseButtonPressed) {
-			if(event.mouseButton.button == sf::Mouse::Left) {
+		else if (event.type == sf::Event::MouseButtonPressed) {
+			if (event.mouseButton.button == sf::Mouse::Left) {
 				savePositionOfCursorTo(&positonOfLeftMouseClick);
 			}
-			else if(event.mouseButton.button == sf::Mouse::Right) {
+			else if (event.mouseButton.button == sf::Mouse::Right) {
 				savePositionOfCursorTo(&positonOfRightMouseClick);
 				isRightMouseButtonPressed = 1;
 			}
 		}
-		else if(event.type == sf::Event::MouseButtonReleased) {
-			if(event.mouseButton.button == sf::Mouse::Left) {
+		else if (event.type == sf::Event::MouseButtonReleased) {
+			if (event.mouseButton.button == sf::Mouse::Left) {
 				createObject();
 			}
-			else if(event.mouseButton.button == sf::Mouse::Right) {
+			else if (event.mouseButton.button == sf::Mouse::Right) {
 				isRightMouseButtonPressed = 0;
 			}
 		}
-		else if(event.type == sf::Event::MouseMoved && isRightMouseButtonPressed) {
+		else if (event.type == sf::Event::MouseMoved && isRightMouseButtonPressed) {
 			changeViewCenter();
 		}
 	}
@@ -114,10 +131,10 @@ void Simulation::event() {
 
 bool Simulation::isCollision(CircleObject a, CircleObject b) {
 	Vector2D pos1 = a.getPosition();
-	double radious = a.getObject().getRadius();
+	double radius = a.getObject().getRadius();
 	Vector2D pos2 = b.getPosition();
 
-	return pow(pos2.getX() - pos1.getX(), 2) + pow(pos2.getY() - pos1.getY(), 2) <= pow(radious, 2);
+	return pow(pos2.getX() - pos1.getX(), 2) + pow(pos2.getY() - pos1.getY(), 2) <= pow(radius, 2);
 }
 
 void Simulation::mergeObjects(int i, int j) {

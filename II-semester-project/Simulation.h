@@ -11,7 +11,7 @@ private:
 	sf::Vector2f positonOfRightMouseClick;
 	bool isRightMouseButtonPressed;
 	bool isPaused;
-	double Radious;
+	double Radius;
 	double Mass;
 
 
