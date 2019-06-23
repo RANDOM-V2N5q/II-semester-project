@@ -6,6 +6,7 @@ private:
 	const double G = 6.67408e-11;
 	sf::RenderWindow *window;
 	std::vector<CircleObject> DrawableObjects;
+	std::vector<sf::Vertex> lines;
 
 	sf::Vector2f positonOfLeftMouseClick;
 	sf::Vector2f positonOfRightMouseClick;

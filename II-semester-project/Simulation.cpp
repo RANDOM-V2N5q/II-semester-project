@@ -209,6 +209,9 @@ void Simulation::moveObjects() {
 		Vector2D traveledDistance = (velocity * 1 / 60);
 		Vector2D position = DrawableObjects[i].getPosition();
 
+		lines.push_back(sf::Vertex(sf::Vector2f(position.getX() + traveledDistance.getX(),position.getY() + traveledDistance.getY())));
+		lines.push_back(sf::Vertex(sf::Vector2f(position.getX(), position.getY())));
+
 		DrawableObjects[i].setPosition(position + traveledDistance);
 	}
 }
@@ -226,6 +229,9 @@ void Simulation::update() {
 void Simulation::draw() {
 	for(int i = 0; i < DrawableObjects.size(); i++) {
 		window->draw(DrawableObjects[i].getObject());
+	}
+	if(lines.size() != 0) {
+		window->draw(&lines[0], lines.size(), sf::Lines);
 	}
 }
 
